@@ -4,8 +4,37 @@
 
 This repository contains the tokenizer training code. Code for other aspects of the project (e.g. evals, model scaling, data processing, wandb, train configs) will be added soon!
 
-## Install `tokenizers` fork
-**Important note:** Our project depends on a custom [fork](https://github.com/alisawuffles/tokenizers-superbpe) of [huggingface/tokenizers](https://github.com/huggingface/tokenizers) which conflicts with the original. You can follow the installation instructions [here](https://github.com/alisawuffles/tokenizers-superbpe/tree/757f2a55c0820ed47064e1fe473deea39b7b611b/bindings/python). Because of this, we recommend *always installing this project in its own virtual environment.*
+## Setup
+
+### Python version requirement
+
+> This project requires **Python 3.9–3.12**.
+> `pysimdjson` is not yet compatible with Python 3.13 or above.
+
+We recommend using a virtual environment:
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+```
+
+### Install Rust (for tokenizer build)
+Our tokenizer depends on a Rust-based extension. You must install the [Rust toolchain](https://www.rust-lang.org/tools/install) first:
+
+```bash
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+export PATH="$HOME/.cargo/bin:$PATH"
+```
+
+### Install custom tokenizers fork
+**Important:** We depend on a [custom fork](https://github.com/alisawuffles/tokenizers-superbpe) of [huggingface/tokenizers](https://github.com/huggingface/tokenizers), which conflicts with the original.
+
+You can install it via:
+
+```bash
+git submodule update --init --recursive
+pip install -r requirements.txt
+```
 
 ## Data download
 Our tokenizer training data is available [here](https://huggingface.co/datasets/UW/olmo-mix-1124-subset-p99). You can download it with the following command (after installing [`huggingface-cli`](https://huggingface.co/docs/huggingface_hub/en/guides/cli) and logging into your HuggingFace account).

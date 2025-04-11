@@ -1,0 +1,9 @@
+# requirements.txt
+
+# Core dependencies
+click
+filelock
+pysimdjson; python_version >= "3.9" and python_version < "3.13"
+
+# Editable install for tokenizer
+-e tokenizers/bindings/python/
