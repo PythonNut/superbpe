@@ -1,3 +1,4 @@
 [submodule "tokenizers-superbpe"]
 	path = tokenizers_superbpe
-	url = https://github.com/alisawuffles/tokenizers-superbpe.git
+	url = https://github.com/amazingvince/tokenizers-superbpe.git
+	branch = main
