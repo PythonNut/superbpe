@@ -44,17 +44,17 @@ random.seed(0)
     help="The number of tokens in the vocabulary.",
 )
 @click.option(
-    "--do_whitespace_pretokenization",
-    type=bool,
-    default=True,
-    help="Whether to do whitespace pretokenization.",
+    "--regex_string",
+    type=str,
+    default=None,
+    help="Regex for pretokenization.",
 )
 def main(
     output_dir: str,
     num_bytes: int,
     corpus_dir: str,
     vocab_size: int,
-    do_whitespace_pretokenization: bool,
+    regex_string: str,
 ):
     output_dir = Path(output_dir)
     ensure_dir(output_dir)
@@ -98,7 +98,7 @@ def main(
     tokenizer = train_or_extend_tokenizer(
         train_files,
         vocab_size=vocab_size,
-        do_whitespace_pretokenization=do_whitespace_pretokenization,
+        regex_string=regex_string,
     )
     tokenizer.model.save(".")  # saves merges.txt and vocab.json
     tokenizer.save("tokenizer.json")

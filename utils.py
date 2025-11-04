@@ -46,29 +46,13 @@ def get_pretokenization_regex(tokenizer_json):
 def train_or_extend_tokenizer(
     text_files: str,
     vocab_size: int = 100000,
-    do_whitespace_pretokenization: bool = True,
     regex_string: str = None,
-    tokenizer_type: str = "bpe",
 ):
-    if tokenizer_type == "bpe":
-        tokenizer = Tokenizer(BPE())
-        trainer = BpeTrainer(show_progress=True, vocab_size=vocab_size)
-    elif tokenizer_type == "unigram":
-        tokenizer = Tokenizer(Unigram())
-        trainer = UnigramTrainer(show_progress=True, vocab_size=vocab_size)
+    tokenizer = Tokenizer(BPE())
+    trainer = BpeTrainer(show_progress=True, vocab_size=vocab_size)
 
-    if not regex_string:
-        regex_string = "(?=(\d{3})+(?!\d))"  # pretokenize digits in groups of 3 from right to left (from Luca)
-
-        if do_whitespace_pretokenization:
-            if regex_string:
-                regex_string += "|"
-            regex_string += (
-                " ?\p{L}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"  # GPT-2 pretokenization
-            )
-
+    print(f"Using regex string: {regex_string}", flush=True)
     pretokenizers = [
-        Digits(individual_digits=False),
         Split(
             pattern=Regex(regex_string),
             behavior="isolated",
