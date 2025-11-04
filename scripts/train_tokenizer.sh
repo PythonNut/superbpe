@@ -1,7 +1,7 @@
 dataset_name=olmo2_p99_truncate
-do_whitespace_pretokenization=true
-vocab_size=200000
+vocab_size=128000
 num_bytes=$((10**10))
+regex_string="[^\r\n\p{L}\p{N}]?[\p{Lu}\p{Lt}\p{Lm}\p{Lo}\p{M}]*[\p{Ll}\p{Lm}\p{Lo}\p{M}]+|[^\r\n\p{L}\p{N}]?[\p{Lu}\p{Lt}\p{Lm}\p{Lo}\p{M}]+[\p{Ll}\p{Lm}\p{Lo}\p{M}]*|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n/]*|\s*[\r\n]+|\s+(?!\S)|\s+"
 corpus_dir=/gscratch/xlab/alisaliu/pretokenization/data/${dataset_name}/train  # a directory containing txt files for tokenizer training
 
 # convert num_bytes to something like 10G or 100M, depending on the value
@@ -22,14 +22,7 @@ else
     vocab_size_str=${vocab_size}
 fi
 
-# if do_whitespace_pretokenization is true, set pretok_str to "pretok", else "nopretok"
-if [ $do_whitespace_pretokenization == true ]; then
-    pretok_str=pretok
-else
-    pretok_str=nopretok
-fi
-
-output_dir=tokenizer_json/${dataset_name}_${pretok_str}_${num_bytes_str}_${vocab_size_str}
+output_dir=tokenizer_json/bpe_${dataset_name}_${num_bytes_str}_${vocab_size_str}
 echo "output_dir: $output_dir"
 
 python -m train_tokenizer \
@@ -37,4 +30,4 @@ python -m train_tokenizer \
     --corpus_dir $corpus_dir \
     --num_bytes $num_bytes \
     --vocab_size $vocab_size \
-    --do_whitespace_pretokenization $do_whitespace_pretokenization
+    --regex_string "$regex_string"
