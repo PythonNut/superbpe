@@ -49,16 +49,7 @@ Training a SuperBPE tokenizer involves two stages:
 
 Note that you can choose to use different training data for Stage 1 and Stage 2, or perform Stage 2 directly on top of an existing BPE tokenizer to augment it with superwords ([scripts/extend_existing_tokenizer.sh](https://github.com/PythonNut/superbpe/blob/main/scripts/extend_existing_tokenizer.sh)).
 
-After tokenizer training, you need to update the `decoder` field in the `tokenizer.json` to make sure it looks like this.
-
-```
-"decoder": {
-    "type": "ByteLevel",
-    "add_prefix_space": true,
-    "trim_offsets": true,
-    "use_regex": true
-}
-```
+After tokenizer training, you'll want to use the [`construct_hf_tokenizer()` function](https://github.com/PythonNut/superbpe/blob/main/utils.py#L188) to construct a HuggingFace tokenizer with all the bells and whistles. It will create an EOS token, update the `tokenizer.json` with a `decoder` field, and construct additional files like `tokenizer_config.json` and `special_tokens_map.json`. You can modify this function depending on your own model development pipeline.
 
 ## Citation 
 
