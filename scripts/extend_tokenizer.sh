@@ -5,10 +5,10 @@ vocab_size=128000
 regex_string="\p{N}{1,3}| ?[^\s\p{L}\p{N}]{2,}[\r\n/]*| +(?!\S)"
 
 # create a str called num_inherit_merges_str, which turns 100000 into 100K
-if [ $num_inherit_merges -ge 1000 ]; then
+if [ ${num_inherit_merges:-0} -ge 1000 ]; then
     num_inherit_merges_str=$(($num_inherit_merges / 1000))K
 else
-    num_inherit_merges_str=${num_inherit_merges}
+    num_inherit_merges_str=${num_inherit_merges:-0}
 fi
 
 # convert vocab_size to something like 100K, depending on the value
