@@ -14,7 +14,6 @@ from tokenizers.pre_tokenizers import ByteLevel, Split, Digits
 from tokenizers.trainers import BpeTrainer, UnigramTrainer
 from tokenizers import Tokenizer
 from transformers.models.gpt2.tokenization_gpt2_fast import GPT2TokenizerFast
-from tokenizers.decoders import ByteLevel
 
 
 def ensure_dir(d):
@@ -186,6 +185,8 @@ def get_files_with_num_bytes(data_dir, num_bytes=None, loop_around=True):
 
 
 def construct_hf_tokenizer(tokenizer_dir):
+    from tokenizers.decoders import ByteLevel
+    
     tokenizer_dir = Path(tokenizer_dir)
     base_tokenizer = Tokenizer.from_file(str(tokenizer_dir / "tokenizer.json"))
     base_tokenizer.decoder = ByteLevel(
